@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type='text/css' media='all'> 
+		<link rel="stylesheet" href="/css/style.css" type='text/css' media='all'> 
+	<meta name="keywords" content="dequone, rezoh, stackoverflow, python, django, ask, smirnova, techopark, mail.ru, mail.ru group, mailru, mailru group, технопарк, мэйл.ру, мэйл.ру груп">
+    <title>Ask Smirnova</title>
+</head>
+
+<body>
+  <div class = "container">
+		<div class = "row"><br>
+			<form class="navbar navbar-inner form-search" id = "head"> 
+				<div class ="row">
+					<a href = "http://ask-smirnova.ru"><h1><font id = "logo" >Ask Smirnova</font></a>
+					<input type="text"   class="input-medium search-query">
+					<button type="submit" class="btn btn-primary" >Search</button> 
+					{% if profile.is_authenticated %}	
+					
+					{% else %}
+					<font size = "3"><a href = "/login">Log in</a> 
+													<a href = "/reg">Sign in</a> </font>  {% endif %}</h1>
+				</div>
+			</form>
+    	<div class = "span8 " id="maincol">
+				
+        	{% block content %}{% endblock %}
+				
+	    </div>
+    	<div class = "span4" id="rightcol">
+				{% if popular_tags %}
+				<div class = "well">
+		  	  <h1>Popular Tags</h1><hr>
+					<ul>
+						{% for tag in popular_tags%}
+						<li><a href = "/tag/{{ tag.id }}">{{tag.word}}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+				{% endif %} 
+				{% if authors %}
+				<div class = "well">
+					<h1>Popular Authors</h1><hr>
+					<ul>
+						{% for author  in authors %}
+						<li>{{author.user_name}}</li>
+						{% endfor %}				
+					</ul>
+				</div>
+			{% endif %}
+			<pre><a href = "/reiting"><h3>Best questions</h3></a>
+    	</div>
+		</div>
+	</div>
+	
+    
+</body>
+</html>

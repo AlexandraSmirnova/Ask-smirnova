@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-horizontal">
+  <fieldset>
+    <legend>New Question</legend>
+    <div class="control-group">
+      <label class="control-label" for="input01">Title</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="input01">
+      </div>
+			<label class="control-label" for="input02">Text</label>
+      <div class="controls">
+        <textarea name="answer" cols="34" rows="4"></textarea>
+      </div>
+			<label class="control-label" for="input03">Tags</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="input03">
+      </div>
+			<div class="controls">
+ 				<br>
+				<button type="submit" class="btn btn-primary">Join</button>
+      </div>
+    </div>
+  </fieldset>
+</form>
+{% endblock %}

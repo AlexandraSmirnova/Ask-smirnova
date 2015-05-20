@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Registration</legend>
+    <div class="control-group">
+      <label class="control-label" for="input01">Login*</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="input01">
+      </div>
+			<label class="control-label" for="input02">Email*</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="input02">
+      </div>
+			<label align= "left" class="control-label" for="input03">NickName*</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="input03">
+      </div>
+			<label class="control-label" for="input04">Password*</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" id="input04">
+      </div>
+			<label class="control-label" for="input05">Repeat Password*</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" id="input05">
+      </div>
+			<label class="control-label" for="input05">Upload Avatar</label>
+			<div class="controls">
+        <input type="file" class="input-xlarge" >
+				<br>* - required for filling<br>
+				<button type="submit" class="btn btn-primary controls">Join</button>
+      </div>
+    </div>
+		
+  </fieldset>
+</form>
+{% endblock %}
