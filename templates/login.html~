@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class="form-horizontal">
+<form method = "post" action = "/login/" class="form-horizontal">
+	{% csrf_token %}
   <fieldset>
     <legend>Log in</legend>
     <div class="control-group">
-	
-  		<input type="text" class="input-small" placeholder="Login"><br><br>
-	  	<input type="password" class="input-small" placeholder="Password"><br><br>
+			<label class="control-label" for="input01">Login</label>
+  		<input type="text" class="input-small" name="username" placeholder="Login"><br><br>
+			<label class="control-label" for="input02">Password</label>
+	  	<input type="password" class="input-small" name="password" placeholder="Password"><br><br>
 		  <label class="checkbox">
     		<input type="checkbox"> Remember me
 		  </label><br>

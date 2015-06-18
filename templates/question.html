@@ -3,7 +3,7 @@
 {% block content %}
 <div class = "row">
 		<div class = "left" >	
-				<img  src = "http://lorempixel.com/120/100/"><br>
+				<img  class = "avatar" src = "/uploads/{{question.author.avatar}}"><br>
 				Reiting: {{ question.question_reiting }} <br>
 				<bottom class ="btn controls"><img src = "/img/yes.png" class = "like" ></i></bottom>
 				<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
@@ -23,8 +23,8 @@
 	{% for a in answers %}
 			<div class = "question">
 				<div class = "left" >	
-					<img  src = "http://lorempixel.com/120/100/">
-					Reiting: {{ a.reiting_a }} <br>
+					<img  class = "avatar" src = "/uploads/{{a.author.avatar}}" >
+					Reiting: {{ a.reiting_a }}<br>
 					<bottom class ="btn controls"><img src = "/img/yes.png" class = "like" ></i></bottom>
 					<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
 				</div>

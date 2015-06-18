@@ -1,12 +1,18 @@
 {% extends "base.html" %}
-{% include "userblock.html" %}
+
 {% block content %}
 <h2> {{title}} {{tag}}</h2>
+{% if messaga %}
+	<div class = "alert-success">
+		{{message}}
+	</div>
+{% endif %}
+
 {% if questions %}
 	{% for question in questions %}
 		<div class = "question">
 			<div class = "left" >	
-				<img  src = "http://lorempixel.com/120/100/"><br>
+				<img  class = "avatar" src = "/uploads/{{question.author.avatar}}"><br>
 				Reiting: {{ question.question_reiting }} <br>
 				<bottom class ="btn controls"><img src = "/img/yes.png" class = "like" ></i></bottom>
 				<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
@@ -17,7 +23,8 @@
 				<h3> <a href = "/que/{{ question.id }}">{{ question.question_title }}</a>	</h3>
 				<p>{{ question.question_text }}</p>
 				<p class="bottom"><a href="/">Comments( {{ question.num_answer }} )</a> 
-				Tags: {% for tag in question.tags.all %}<a href = "/tag/{{ tag.id }}"> {{tag}}   </a>{% endfor %} </p>
+								Tags: {% for tag in question.tags.all %}<a href = "/tag/{{ tag.id }}"> {{tag}}   </a>{% endfor %} </p>
+							
 				<font class ="graywords">{{ question.pub_date }}</font>
 			</div>
 		</div>
@@ -27,26 +34,28 @@
 {% endif %}
 <div  class ="pagination" id = "pager">
 	<ul>
-		{% if quaryset.has_previous %}
-    	<li><a href="?page={{ quaryset.previous_page_number }}">Prev</a></li>
-		{% endif%}
-   	{%for Number in pager.page_range%}
-						{% if Number > minPageNum and Number > maxPageNum %}
-				 			{% ifequal Number quaryset.number%}
-					
-								<li class = "active">
-							{%else%}
-								<li>
-							{%endifequal%}
-							<a href="?page={{Number}}">{{ Number}}</a></li>
-						{% endif%}
-			{%endfor%}
+		{%if pager.num_pages > 1 %}
+			{% if quaryset.has_previous %}
+		  	<li><a href="?page={{ quaryset.previous_page_number }}">Prev</a></li>
+			{% endif%}
+		 	{%for Number in pager.page_range%}
+							{% if Number > minPageNum and Number < maxPageNum %}
+					 			{% ifequal Number quaryset.number%}
+									
+										<li class = "active">
+		
+								{%else%}
+									<li>
+								{%endifequal%}
+						
+									<a href="?page={{Number}}">{{ Number}}</a></li>
+							{% endif%}
+				{%endfor%}
 			
-		{% if quaryset.has_next %}
-
-			
-    	<li><a href="?page={{ quaryset.next_page_number }}">Next</a></li>
-		{% endif%}
+			{% if quaryset.has_next %}
+		  	<li><a href="?page={{ quaryset.next_page_number }}">Next</a></li>
+			{% endif%}
+		{%endif%}
   </ul>
 </div>
 {% endblock %}

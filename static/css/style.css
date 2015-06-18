@@ -113,3 +113,13 @@ textarea{
 .graywords{
 	color: #7AA;
 }
+
+img.avatar{
+	width: 120px;
+	height: 100px; 
+}
+
+img.user{
+	width: 72px;
+	height: 60px; 
+}

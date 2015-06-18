@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 	url(r'^tag/(?P<tag_id>[0-9]+)$', views.tags, name='tag'),
 	url(r'^new$', views.new_q, name='new_q'),
 	url(r'^login$', views.login, name='login'),
+		url(r'^logout$', views.logout_view, name='logout'),
 	url(r'^reg$', views.reg, name='reg'),    
 )
 

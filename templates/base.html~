@@ -13,14 +13,22 @@
 		<div class = "row"><br>
 			<form class="navbar navbar-inner form-search" id = "head"> 
 				<div class ="row">
-					<a href = "http://ask-smirnova.ru"><h1><font id = "logo" >Ask Smirnova</font></a>
-					<input type="text"   class="input-medium search-query">
-					<button type="submit" class="btn btn-primary" >Search</button> 
-					{% if profile.is_authenticated %}	
-					
+					<div class = "span3">
+						<a href = "http://ask-smirnova.ru"><h1><font id = "logo" >Ask Smirnova</font></a>
+					</div>
+					<div class = "span4">
+						<input type="text"   class="input-medium search-query">
+						<button type="submit" class="btn btn-primary" >Search</button> 
+					</div>
+					<div class = "span4">
+						{% if user.is_authenticated %}
+						<img  class = "user" src = "/uploads/{{profile.avatar}}">	
+						<font size = "3"> {{profile.nickname}}
+							<a href = "/logout">Logout</a></font>
 					{% else %}
-					<font size = "3"><a href = "/login">Log in</a> 
-													<a href = "/reg">Sign in</a> </font>  {% endif %}</h1>
+								<font size = "3"><a href = "/login">Login</a> 
+													<a href = "/reg">Signin</a> </font>  {% endif %}</h1>
+					</div>
 				</div>
 			</form>
     	<div class = "span8 " id="maincol">
@@ -49,7 +57,7 @@
 					</ul>
 				</div>
 			{% endif %}
-			<pre><a href = "/reiting"><h3>Best questions</h3></a>
+				<ul><a href = "/reiting"><h3>Best questions</h3></a></ul>
     	</div>
 		</div>
 	</div>

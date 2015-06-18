@@ -3,7 +3,7 @@
 {% block content %}
 <div class = "row">
 		<div class = "left" >	
-				<img  src = "http://lorempixel.com/120/100/"><br>
+				<img  src = "/uploads/{{question.author.avatar}}"><br>
 				Reiting: {{ question.question_reiting }} <br>
 				<bottom class ="btn controls"><img src = "/img/yes.png" class = "like" ></i></bottom>
 				<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
@@ -13,7 +13,7 @@
 				
 				<h3> <a href = "/que/{{ question.id }}">{{ question.question_title }}</a>	</h3>
 				<p>{{ question.question_text }}</p>
-				<p class="bottom"><a href="/">Comments({{ question.num_answer }})</a> 
+				<p class="bottom"><a href="/">Comments( {{ question.num_answer }} )</a> 
 				Tags: {% for tag in question.tags.all %}<a href = "/tag/{{ tag.id }}"> {{tag}}   </a>{% endfor %} </p>
 				<font class ="graywords">{{ question.pub_date }}</font>
 			</div>
@@ -23,8 +23,8 @@
 	{% for a in answers %}
 			<div class = "question">
 				<div class = "left" >	
-					<img  src = "http://lorempixel.com/120/100/">
-					Reiting: {{ a.reiting_a }} <br>
+					<img  class = "avatar" src = "/uploads/{{a.author.avatar}}" >
+					Reiting: {{ a.reiting_a }}<br>
 					<bottom class ="btn controls"><img src = "/img/yes.png" class = "like" ></i></bottom>
 					<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
 				</div>
