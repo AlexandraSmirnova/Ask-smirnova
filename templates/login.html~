@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form method = "post" action = "/login/" class="form-horizontal">
+<form method = "post" action = "/login" class="form-horizontal">
 	{% csrf_token %}
   <fieldset>
     <legend>Log in</legend>

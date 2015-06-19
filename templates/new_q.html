@@ -1,26 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class="form-horizontal">
+<form class="form-horizontal" method = "post" action = '/new'>
+	{% csrf_token %}
   <fieldset>
     <legend>New Question</legend>
-    <div class="control-group">
-      <label class="control-label" for="input01">Title</label>
-      <div class="controls">
-        <input type="text" class="input-xlarge" id="input01">
-      </div>
-			<label class="control-label" for="input02">Text</label>
-      <div class="controls">
-        <textarea name="answer" cols="34" rows="4"></textarea>
-      </div>
-			<label class="control-label" for="input03">Tags</label>
-      <div class="controls">
-        <input type="text" class="input-xlarge" id="input03">
-      </div>
-			<div class="controls">
- 				<br>
-				<button type="submit" class="btn btn-primary">Join</button>
-      </div>
+    <div class="controls">
+      {%for f in form%}
+       	{{ f.label_tag }} 
+				{{ f }}
+				<div class = "alert-error input-xlarge">
+					{{ f.errors }}
+				</div>
+			{% endfor %}
+ 			<br>
+			<button type="submit" class="btn btn-primary">Join</button>
     </div>
   </fieldset>
 </form>

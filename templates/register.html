@@ -3,45 +3,24 @@
 {% block content %}
 <form class="form-horizontal" enctype="multipart/form-data" method = "post" action = '/reg'>
 	{% csrf_token %}
- <fieldset>
-	
-    <legend>Registration</legend>
-		{%if form.error%}<div class = "Error">Error<div>{%endif%}
-
-    <div class="controls"> 
-			{{form}}
-      <!--<label class="control-label"  for="login">Login*</label>
-      <div class="controls">	
-        	{{ form.username }}
-      </div>
-			<label class="control-label " for="mail">Email*</label>
-      <div class="controls">	
-        	{{ form.mail }}
-      </div>
-			<label align= "left" class="control-label" for="nick">NickName*</label>
-      <div class="controls">	
-       	{{ form.nick }}
-      </div>
-			<label class="control-label" for="password">Password*</label>
-      <div class="controls"> 
-        {{ form.password}}
-      </div>
-			<label class="control-label" for="password1">Repeat Password*</label>
-      <div class="controls"> 	
-       	{{ form.passwordSecond}}
-      </div>
-			<label class="control-label" for="avatar">Upload Avatar</label>
-			<div class="controls"> 	
-				<!--		 {{ form.avatar}}
-			</div>-->
-	
-			</div>
-			<div class="controls">
+	<fieldset>
+		<legend>Registration</legend>
+		<div class="controls"> 
+				{%for f in form%}
+        	{{ f.label_tag }} 
+					{{ f }}
+					<div class = "alert-error input-xlarge">
+						{{ f.errors }}
+					</div>
+				{% endfor %}
 				* - required for filling<br>
+				{%if error%}
+					<div class = "alert-error input-xlarge">
+						{{ error }}
+					</div>
+				{%endif%}
 				<button type="submit" class="btn btn-primary">Join</button>
-      </div>
-    
-		
+      </div>  
   </fieldset> 
 </form>
 {% endblock %}
