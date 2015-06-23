@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+{% load humanize %}
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/css/bootstrap.min.css" type='text/css' media='all'> 
@@ -22,9 +22,12 @@
 					</div>
 					<div class = "span4">
 						{% if user.is_authenticated %}
-						<img  class = "user" src = "/uploads/{{profile.avatar}}">	
-						<font size = "3"> {{profile.nickname}}
-							<a href = "/logout">Logout</a></font>
+						<div class = "span">
+							<img  class = "user" src = "/uploads/{{profile.avatar}}">	
+						</div>
+						<font size = "3"> {{profile.nickname}}<br>
+							<a href = "/logout">Logout</a>
+						<a href="/edit ">Settings</a></font>
 					{% else %}
 								<font size = "3"><a href = "/login">Login</a> 
 													<a href = "/reg">Signin</a> </font>  {% endif %}</h1>

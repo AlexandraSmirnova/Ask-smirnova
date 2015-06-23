@@ -13,7 +13,7 @@ class Profile(models.Model):
 	#user_mail = models.EmailField(max_length=100)
 	user_reiting = models.IntegerField(default=0)
 	avatar = models.ImageField()
-	registration_date= models.DateTimeField()
+	#registration_date= models.DateTimeField()
 	def __str__(self):             
 		return self.user_name
 

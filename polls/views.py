@@ -54,6 +54,21 @@ def tags(request, tag_id):
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
+def authors(request, author_id):
+	context = {}	
+	try:
+		context['author'] = Profile.objects.get(pk = author_id)
+	except Tag.DoesNotExist:
+		raise Http404("Tag does not exist")
+	question_list = Question.objects.annotate(num_answer=Count("answer")).filter(author = author_id)	
+	latest_question_list = question_list.order_by('-question_reiting')
+	pages = pagination(request, latest_question_list)
+	context.update(pages)
+	context['title'] = "Search by author: "
+	context['profile'] = get_user_data(request)
+	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
+	return render(request, 'index.html', context)
 
 def question(request, question_id):
 	try:
@@ -104,11 +119,9 @@ def new_q(request):
 def answer(request, question_id):
 	if request.POST:
 		text = request.POST['answer']
-		#if(len(text) > 10)
-		#	try:
-
-		#	except
-
+		if(len(text) > 10):
+			a = Answer.objects.create(answer_text = text, pub_date = timezone.now(), author = Profile.objects.get(user_id=request.user), question = Question.objects.get( pk = question_id))
+			a.save()
 	return redirect(reverse('question', kwargs = {'question_id': question_id} ))
 	
 
@@ -138,7 +151,7 @@ def reg(request):
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	form = ProfileUser()		
 	if request.POST:
-		form = ProfileUser(request.POST)
+		form = ProfileUser(request.POST, request.FILES)
 		context['form'] = form
 		if form.is_valid():
 			password =  form.cleaned_data.get('password')
@@ -149,11 +162,12 @@ def reg(request):
 			name = form.cleaned_data.get('username')
 			mail = form.cleaned_data.get('mail')
 			nick = form.cleaned_data.get('nick')
+			ava = form.cleaned_data.get('avatar')
 			try:
 				u = User.objects.create(username = name, email = mail )
 				u.set_password(password)
 				u.save()
-				p = Profile.objects.create(user_id = u, user_name = nick, user_reiting = 5)
+				p = Profile.objects.create(user_id = u, user_name = nick, user_reiting = 5, avatar = ava )
 				p.save()
 			except:
 				context['error'] = "Cann't create user"
@@ -167,6 +181,44 @@ def reg(request):
 		context['form'] = form	
 	return render(request, 'register.html', context)
 
+@login_required
+def settings(request):
+	context = {}
+	context['profile'] = get_user_data(request)
+	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
+	form = EditProfile()
+	if request.POST:
+			form = EditProfile(request.POST, request.FILES)
+			context['form'] = form
+			if form.is_valid():
+				p = Profile.objects.get(user_id=request.user.id)
+				password =  form.cleaned_data.get('password')
+				if password:
+					u = User.objects.get(pk = request.user.id)
+					password2 =  form.cleaned_data.get('passwordSecond')
+					if password2 != password:
+						context['error'] = "Passwords are different!"
+						return render(request, 'settings.html', context)
+					u.set_password(password)
+					u.save()
+				mail = form.cleaned_data.get('mail')
+				ava = form.cleaned_data.get('avatar')
+				if mail:
+					p.mail = mail
+					p.save()
+				if ava:
+					p.avatar = ava
+					p.save()
+				context['title'] = "Success!"
+				context['message']='Your profile was successfully changed'
+				return render(request, 'message.html', context)
+			else:
+				return render(request, 'settings.html', context)
+	context['form'] = form	
+	
+	return render(request, 'settings.html', context)
+	
 @login_required
 def get_user_data(request):
 	context = {}

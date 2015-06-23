@@ -22,9 +22,12 @@
 					</div>
 					<div class = "span4">
 						{% if user.is_authenticated %}
-						<img  class = "user" src = "/uploads/{{profile.avatar}}">	
-						<font size = "3"> {{profile.nickname}}
-							<a href = "/logout">Logout</a></font>
+						<div class = "span">
+							<img  class = "user" src = "/uploads/{{profile.avatar}}">	
+						</div>
+						<font size = "3"> {{profile.nickname}}<br>
+							<a href = "/logout">Logout</a>
+						<a href="/edit ">Settings</a></font>
 					{% else %}
 								<font size = "3"><a href = "/login">Login</a> 
 													<a href = "/reg">Signin</a> </font>  {% endif %}</h1>
@@ -52,7 +55,7 @@
 					<h1>Popular Authors</h1><hr>
 					<ul>
 						{% for author  in authors %}
-						<li>{{author.user_name}}</li>
+						<li><a href = "/author/{{ author.id }}">{{author.user_name}}</a></li>
 						{% endfor %}				
 					</ul>
 				</div>

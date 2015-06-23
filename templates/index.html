@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> {{title}} {{tag}}</h2>
+<h2> {{ title }} {{ tag }} {{ author }}</h2>
 
 {% if questions %}
 	{% for question in questions %}

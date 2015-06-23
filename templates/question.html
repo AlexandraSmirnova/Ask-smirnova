@@ -14,7 +14,7 @@
 					<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
 				</div>
 				<div class = "right" >
-					<h3> <a href = "/">{{a.author}}</a>	</h3>
+					<h3> <a href = "/author/{{ a.author.id }}">{{a.author}}</a>	</h3>
 					<p>{{a.answer_text}}</p>
 					
 					{% if a.flag %}
@@ -32,7 +32,7 @@
 {% if user.is_authenticated %}
 	<form  method = "post" action = '/que/{{question.id}}/answer'>
 		{% csrf_token %}
-		<textarea name="answer" cols="80" rows="4">Input your answer here</textarea>
+		<textarea name="answer" cols="80" rows="4", placeholder= "Input your answer here"></textarea>
 		{%if error%}
 			<div class = "alert-error input-xlarge">
 				{{ error }}

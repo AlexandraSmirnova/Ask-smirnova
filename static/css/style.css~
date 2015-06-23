@@ -118,3 +118,10 @@ img.avatar{
 	width: 120px;
 	height: 100px; 
 }
+
+img.user{
+	width: 72px;
+	height: 60px; 
+	padding-right: 10px;
+	float: left;
+}
