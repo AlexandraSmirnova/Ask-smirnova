@@ -9,9 +9,9 @@
 			<div class = "question">
 				<div class = "left" >	
 					<img  class = "avatar" src = "/uploads/{{a.author.avatar}}" >
-					Reiting: {{ a.reiting_a }}<br>
-					<bottom class ="btn controls"><img src = "/img/yes.png" class = "like" ></i></bottom>
-					<bottom class ="btn controls b_right" ><img src = "/img/no.png" class = "like" ></i></bottom>
+					Rating: {{ a.rating }}<br>
+					<a class="btn controls js-like" href="/like/" data-id="{{ a.id }}" data-url="/like/" data-mark="1" data-ptype="1"><img src = "/img/yes.png" class = "like"></i></a>
+					<a class ="btn controls b_right js-like" href="/like/" data-id="{{ a.id }}" data-url="/like/" data-mark="-1" data-ptype="1"> <img src = "/img/no.png" class = "like" ></i></a>
 				</div>
 				<div class = "right" >
 					<h3> <a href = "/author/{{ a.author.id }}">{{a.author}}</a>	</h3>
@@ -41,4 +41,10 @@
   	<p><input type="submit" class = "btn-primary " value="Add answer"></p>
 	</form>
 {% endif %}
+
+{% include "pagination.html" %}
+
+{% endblock %}
+{% block foot %}
+	{% include "js-like.html" %}
 {% endblock %}

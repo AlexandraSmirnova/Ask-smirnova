@@ -12,30 +12,10 @@
 {% else %}
     <p>No questions are available.</p>
 {% endif %}
-<div  class ="pagination" id = "pager">
-	<ul>
-		{%if pager.num_pages > 1 %}
-			{% if quaryset.has_previous %}
-		  	<li><a href="?page={{ quaryset.previous_page_number }}">Prev</a></li>
-			{% endif%}
-		 	{%for Number in pager.page_range%}
-							{% if Number > minPageNum and Number < maxPageNum %}
-					 			{% ifequal Number quaryset.number%}
-									
-										<li class = "active">
-		
-								{%else%}
-									<li>
-								{%endifequal%}
-						
-									<a href="?page={{Number}}">{{ Number}}</a></li>
-							{% endif%}
-				{%endfor%}
-			
-			{% if quaryset.has_next %}
-		  	<li><a href="?page={{ quaryset.next_page_number }}">Next</a></li>
-			{% endif%}
-		{%endif%}
-  </ul>
-</div>
+
+{% include "pagination.html" %}
+
+{% block foot %}
+	{% include "js-like.html" %}
+{% endblock %}
 {% endblock %}

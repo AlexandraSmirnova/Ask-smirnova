@@ -26,7 +26,7 @@ class Question(models.Model):
 	question_text = models.TextField(max_length=400)
 	pub_date = models.DateTimeField('date published')
 	author = models.ForeignKey(Profile, default = 1)
-	question_reiting = models.IntegerField(default=0)
+	question_rating = models.IntegerField(default=0)
 	tags = models.ManyToManyField(Tag)
 	likes = models.ManyToManyField(Like)
 	def __str__(self):             
@@ -36,12 +36,13 @@ class Answer(models.Model):
 	answer_text = models.TextField(max_length=400)
 	pub_date = models.DateTimeField()
 	author = models.ForeignKey(Profile)
-	reiting_a = models.IntegerField(default=0)
+	rating_a = models.IntegerField(default=0)
 	flag = models.NullBooleanField(default = 0)
 	question = models.ForeignKey(Question) 
 	likes = models.ManyToManyField(Like)
 	def __str__(self):             
 		return self.answer_text
+
 
 
 

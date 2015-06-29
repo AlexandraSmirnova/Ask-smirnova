@@ -22,18 +22,18 @@ def index(request):
 	context.update(pages)
 	context['profile'] = get_user_data(request)
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	return render(request, 'index.html', context)
 
 
-def reiting(request):
+def rating(request):
 	context = {}
 	context['title'] = "Best Questions"
-	latest_question_list = Question.objects.annotate(num_answer=Count("answer")).order_by('-question_reiting')[:100]
+	latest_question_list = Question.objects.annotate(num_answer=Count("answer")).order_by('-question_rating')[:100]
 	pages = pagination(request, latest_question_list)
 	context.update(pages)
 	context['profile'] = get_user_data(request)
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id','word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
@@ -45,28 +45,28 @@ def tags(request, tag_id):
 	except Tag.DoesNotExist:
 		raise Http404("Tag does not exist")
 	question_list = Question.objects.annotate(num_answer=Count("answer")).filter(tags = tag_id)	
-	latest_question_list = question_list.order_by('-question_reiting')
+	latest_question_list = question_list.order_by('-question_rating')
 	pages = pagination(request, latest_question_list)
 	context.update(pages)
 	context['title'] = "Search by tag: "
 	context['profile'] = get_user_data(request)
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
 def authors(request, author_id):
 	context = {}	
 	try:
-		context['tag'] = Author.objects.get(pk = author_id)
+		context['author'] = Profile.objects.get(pk = author_id)
 	except Tag.DoesNotExist:
 		raise Http404("Tag does not exist")
 	question_list = Question.objects.annotate(num_answer=Count("answer")).filter(author = author_id)	
-	latest_question_list = question_list.order_by('-question_reiting')
+	latest_question_list = question_list.order_by('-question_rating')
 	pages = pagination(request, latest_question_list)
 	context.update(pages)
 	context['title'] = "Search by author: "
 	context['profile'] = get_user_data(request)
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
@@ -78,7 +78,7 @@ def question(request, question_id):
 	context = {}
 	context['profile'] = get_user_data(request)
 	context['question'] =  question
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['answers'] = Answer.objects.filter(question = question_id)
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'question.html', context)
@@ -88,7 +88,7 @@ def question(request, question_id):
 def new_q(request):
 	context = {}
 	context['profile'] = get_user_data(request)
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	form = NewQuestion()		
 	if request.POST:
@@ -127,7 +127,7 @@ def answer(request, question_id):
 
 def login(request):
 	context = {}
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	if request.POST:
 		name = request.POST['username']
@@ -147,7 +147,7 @@ def logout_view(request):
 
 def reg(request):
 	context = {}
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	form = ProfileUser()		
 	if request.POST:
@@ -167,7 +167,7 @@ def reg(request):
 				u = User.objects.create(username = name, email = mail )
 				u.set_password(password)
 				u.save()
-				p = Profile.objects.create(user_id = u, user_name = nick, user_reiting = 5, avatar = ava )
+				p = Profile.objects.create(user_id = u, user_name = nick, user_rating = 5, avatar = ava )
 				p.save()
 			except:
 				context['error'] = "Cann't create user"
@@ -185,7 +185,7 @@ def reg(request):
 def settings(request):
 	context = {}
 	context['profile'] = get_user_data(request)
-	context['authors'] = Profile.objects.order_by('-user_reiting')[:10]
+	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	form = EditProfile()
 	if request.POST:
@@ -218,6 +218,56 @@ def settings(request):
 	context['form'] = form	
 	
 	return render(request, 'settings.html', context)
+
+@login_required
+def like(req):
+	pk = req.POST.get('id')
+	mark = int(req.POST.get('mark'))
+	ptype = int(req.POST.get('ptype'))
+	p_change = "#q" + str(pk)
+	if ptype == 0:
+		p_change = "#q" + str(pk)
+	else:
+		p_change = "#a" + str(pk)
+	new_rate = '0'
+	status = False
+
+		if ptype == 0:
+			p = Question.objects.get(id = pk)
+		else:
+			p = Answer.objects.get(id = pk)
+		new_rate = str(p.rating)
+		if p.author_id != req.user.id:
+			Vote = VoteForPosts.objects.filter(p_type = ptype).filter(post = pk).filter(voter_id = req.user.id)
+			if Vote.count() != 0:
+				vote_last = Vote[0].value
+			else:
+				vote_last = 0
+			if mark * vote_last != 1:
+				Pr = Profile.objects.get(id = p.author_id)
+				Pr.rating += mark
+				Pr.save()
+				p.rating = p.rating + mark
+				if vote_last != 0:
+					Vote[0].delete()
+				else:
+					Vote = VoteForPosts(post = pk, voter_id = req.user.id, value = mark, p_type = ptype)
+					Vote.save()
+				message = 'Thanks for your vote!'
+				p.save()
+			else:
+				message = 'You cant`t make a double vote!'
+			status = True
+			new_rate = str(p.rating)
+		else:
+			message = 'You are not permitted to vote your post!'
+
+	import json
+	content =json.dumps({'status': status, 'q_change': p_change , 'message': message, 'new_rating': new_rate})
+
+	return HttpResponse(content, content_type = 'application/json')
+
+
 	
 @login_required
 def get_user_data(request):

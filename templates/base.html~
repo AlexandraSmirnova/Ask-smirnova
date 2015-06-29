@@ -11,13 +11,13 @@
 <body>
   <div class = "container">
 		<div class = "row"><br>
-			<form class="navbar navbar-inner form-search" id = "head"> 
+			<form class="navbar navbar-inner form-search" id = "head" action = "/search", method = "get"> 
 				<div class ="row">
 					<div class = "span3">
 						<a href = "http://ask-smirnova.ru"><h1><font id = "logo" >Ask Smirnova</font></a>
 					</div>
 					<div class = "span4">
-						<input type="text"   class="input-medium search-query" >
+						<input type="text"   class="input-medium search-query" name="query" >
 						<button type="submit" class="btn btn-primary" >Search</button> 
 					</div>
 					<div class = "span4">
@@ -55,16 +55,35 @@
 					<h1>Popular Authors</h1><hr>
 					<ul>
 						{% for author  in authors %}
-						<li>{{author.user_name}}</li>
+						<li><a href = "/author/{{ author.id }}">{{author.user_name}}</a></li>
 						{% endfor %}				
 					</ul>
 				</div>
 			{% endif %}
-				<ul><a href = "/reiting"><h3>Best questions</h3></a></ul>
+				<div class = "span4" >
+					<a href = "/rating"><h3>Best questions</h3></a><br>
+					<a href = "/new" class = "btn btn-primary" >Add question</a>
+				</div>
+				
     	</div>
 		</div>
 	</div>
-	
+	    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-transition.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-alert.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-modal.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-dropdown.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tab.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tooltip.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-button.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-collapse.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-carousel.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-typeahead.js"></script>
+	{% block foot %}{% endblock %}
     
 </body>
 </html>
+

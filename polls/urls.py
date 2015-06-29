@@ -4,7 +4,7 @@ from polls import views
 urlpatterns = patterns('',
   #url(r'^$', views.getparametres, name='getparametres'),
   url(r'^$', views.index, name='index'),
-	url(r'^reiting$', views.reiting, name='reiting'),
+	url(r'^rating$', views.rating, name='rating'),
 	url(r'^que/(?P<question_id>[0-9]+)$', views.question, name='question'),
 	url(r'^que/(?P<question_id>[0-9]+)/answer$', views.answer, name='answer'),
 	url(r'^tag/(?P<tag_id>[0-9]+)$', views.tags, name='tag'),
