@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-horizontal" enctype="multipart/form-data" method = "post" action = '/edit'>
+	{% csrf_token %}
+	<fieldset>
+		<legend>Profile: {{profile.nickname}}</legend>
+		<div class = "left">
+			<img  class = "avatar" src = "/uploads/{{profile.avatar}}" ><br><br>
+			<div class = "well"><h4>Rating: {{ profile.rating }}</h4></div>
+		</div>
+		<div class="controls"> 
+				{%for f in form%}
+        	{{ f.label_tag }} 
+					{{ f }}
+					<div class = "alert-error input-xlarge">
+						{{ f.errors }}
+					</div>
+				{% endfor %}
+				<br>
+				{%if error%}
+					<div class = "alert-error input-xlarge">
+						{{ error }}
+					</div>
+				{%endif%}
+				<button type="submit" class="btn btn-primary">Save</button>
+      </div>  
+  </fieldset> 
+</form>
+{% endblock %}

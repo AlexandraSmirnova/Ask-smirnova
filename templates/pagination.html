@@ -1,17 +1,3 @@
-{% extends "base.html" %}
-
-{% block content %}
-<h2> {{ title }} {{ tag }} {{ author }}</h2>
-
-{% if questions %}
-	{% for question in questions %}
-		<div class = "question">
-			{% include "que.html" %}
-		</div>
-	{% endfor %}
-{% else %}
-    <p>No questions are available.</p>
-{% endif %}
 <div  class ="pagination" id = "pager">
 	<ul>
 		{%if pager.num_pages > 1 %}
@@ -38,7 +24,3 @@
 		{%endif%}
   </ul>
 </div>
-{% block foot %}
-	{% include "js-like.html" %}
-{% endblock %}
-{% endblock %}

@@ -1,3 +1,6 @@
+#TODO: 1.use manager(repeated parts of code is bad)
+#2. Add search
+#3. Add checkboxes
 from django.shortcuts import render_to_response
 from django.views.generic import View
 from django.shortcuts import render, redirect
@@ -25,7 +28,7 @@ def index(request):
 	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	return render(request, 'index.html', context)
 
-
+#sort by rating
 def rating(request):
 	context = {}
 	context['title'] = "Best Questions"
@@ -37,7 +40,7 @@ def rating(request):
 	context['popular_tags'] = Tag.objects.all().values('id','word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
-
+#filter questions by tag
 def tags(request, tag_id):
 	context = {}	
 	try:
@@ -54,6 +57,7 @@ def tags(request, tag_id):
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
+#filter questions by author
 def authors(request, author_id):
 	context = {}	
 	try:
@@ -70,6 +74,7 @@ def authors(request, author_id):
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'index.html', context)
 
+#page of one question
 def question(request, question_id):
 	try:
 		question = Question.objects.annotate(num_answer=Count("answer")).get(pk=question_id)
@@ -87,7 +92,7 @@ def question(request, question_id):
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
 	return render(request, 'question.html', context)
 
-
+#add new question
 @login_required
 def new_q(request):
 	context = {}
@@ -119,7 +124,7 @@ def new_q(request):
 		context['form'] = form
 	return render(request, 'new_q.html', context)
 
-
+#add answer
 @login_required
 def answer(request, question_id):
 	if request.POST:
@@ -197,6 +202,7 @@ def search(req):
 	context.update(pages)
 	return render(req, 'index.html', context)
 
+#user's settings
 @login_required
 def settings(request):
 	context = {}
@@ -235,6 +241,7 @@ def settings(request):
 	
 	return render(request, 'settings.html', context)
 
+#TODO: automatic page update
 @login_required
 def like(req):
 	pk = req.POST.get('id')
@@ -320,6 +327,7 @@ def pagination(request, objects):
 	context['maxPageNum'] = int(page) + 3
 	return context
 
+#for automatic update of user's rating
 @login_required
 def up_rating(request, mark):
 	prop = Profile.objects.get(user_id=request.user.id)
