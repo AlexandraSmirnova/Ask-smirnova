@@ -10,11 +10,8 @@ class Tag(models.Model):
 class Profile(models.Model):
 	user_id = models.OneToOneField(User, default = 1)
 	user_name = models.CharField(max_length=100)
-	#user_password = models.CharField(max_length=100, default=123)
-	#user_mail = models.EmailField(max_length=100)
 	user_rating = models.IntegerField(default=0)
 	avatar = models.ImageField()
-	#registration_date= models.DateTimeField()
 	def __str__(self):             
 		return self.user_name
 
@@ -23,11 +20,6 @@ class VoteForPosts(models.Model):
 	voter = models.ForeignKey(User, related_name = 'VoteForPost')
 	post = models.IntegerField(default = 0)
 	p_type = models.IntegerField(default = 0) #0 - Question, 1 - Answer
-
-
-#class Like(models.Model):
-#	user = models.ForeignKey(Profile)
-#	state = models.IntegerField(default=0)
 
 class Question(models.Model):
 	question_title = models.CharField(max_length=100)
@@ -51,7 +43,6 @@ class Answer(models.Model):
 	rating = models.IntegerField(default=0)
 	flag = models.NullBooleanField(default = 0)
 	question = models.ForeignKey(Question) 
-	#likes = models.ManyToManyField(Like)
 	def __str__(self):             
 		return self.answer_text
 

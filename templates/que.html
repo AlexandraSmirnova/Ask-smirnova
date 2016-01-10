@@ -1,22 +1,33 @@
 {% load humanize %}
 <div class = "row">
-		<div class = "left" >	
-				<img  class = "avatar" src = "/uploads/{{question.author.avatar}}"><br>
-				Rating: {{ question.rating }} <br>
-				<a class="btn controls js-like" href="/like/" data-id="{{ question.id }}" data-url="/like/" data-mark="1" data-ptype="0"><img src = "/img/yes.png" class = "like"></i></a>
-				<a class ="btn controls b_right js-like" href="/like/" data-id="{{ question.id }}" data-url="/like/" data-mark="-1" data-ptype="0"> <img src = "/img/no.png" class = "like" ></i></a>
-			</div>
-
-			<div class = "right" >
-				
-				<h3> <a href = "/que/{{ question.id }}">{{ question.question_title }}</a>	</h3>
-				<p>{{ question.question_text }}</p>
-				<p class="bottom"><a href="/">Comments( {{ question.num_answer }} )</a> 
-				{% if question.tags %}
-					Tags: 
-					{% for tag in question.tags.all %}<a href = "/tag/{{ tag.id }}"> {{tag}}   </a>{% endfor %} 	
-				{% endif %}	</p>
-				<font class ="graywords">{{ question.pub_date }}</font>
+	<div class = "left" >	
+		<img  class = "avatar" src = "/uploads/{{question.author.avatar}}">
+		<div>
+			Rating: 
+			<span id="q{{ question.id }}">
+				{{ question.rating }}
+			</span>
 		</div>
+		<a class="btn controls js-like" href="/like/" data-id="{{ question.id }}" data-url="/like/" data-mark="1" data-ptype="0">
+			<img src = "/img/yes.png" class = "like"></i>
+		</a>
+		<a class ="btn controls b_right js-like" href="/like/" data-id="{{ question.id }}" data-url="/like/" data-mark="-1" data-ptype="0">
+			<img src = "/img/no.png" class = "like" ></i>
+		</a>
+		</div>
+
+		<div class = "right" >
+				
+		<h3><a href = "/que/{{ question.id }}">{{ question.question_title }}</a></h3>
+		<p>{{ question.question_text }}</p>
+		<p class="bottom"><a href="/">Comments( {{ question.num_answer }} )</a> 
+		{% if question.tags %}
+			Tags: 
+			{% for tag in question.tags.all %}
+				<a href = "/tag/{{ tag.id }}"> {{tag}}   </a>
+			{% endfor %} 	
+		{% endif %}	</p>
+		<font class ="graywords">{{ question.pub_date }}</font>
+	</div>
 </div>
 

@@ -1,6 +1,6 @@
 <script>
 		$(function(){
-				// using jQuery
+			// using jQuery
 			function getCookie(name) {
 				var cookieValue = null;
 				if (document.cookie && document.cookie != '') {
@@ -16,11 +16,14 @@
 				}
 				return cookieValue;
 			}
+
 			var csrftoken = getCookie('csrftoken');
+
 			function csrfSafeMethod(method) {
 				// these HTTP methods do not require CSRF protection
 				return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 			}
+
 			$.ajaxSetup({
 				beforeSend: function(xhr, settings) {
 					if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -28,6 +31,7 @@
 					}
 				}
 			});
+
 			$('.js-like').click(function(){
 				var $btn = $(this);
 
@@ -35,11 +39,33 @@
 					type: "POST",
 					url: $btn.data('url'),
 					data: {'id': $btn.data('id'), 'mark': $btn.data('mark'), 'ptype': $btn.data('ptype') },
-					success: function(response){
+					datatype: 'json',
+					success: function(response){						
 						$(response.q_change).text(response.new_rating);
 						alert(response.message);
-					},
-					datatype: 'json'
+					}					
+				});
+				return false;
+			});
+
+			$(":checkbox").change(function(){
+				var $box = $(this);
+
+				if($box.checked){
+					var mark = 1;
+				}
+				else{
+					var mark = 0;
+				}
+				console.log(mark);
+				$.ajax({
+					type: "POST",
+					url: '/check_answer',
+					data: {'id': $box.data('id'), 'mark': mark},
+					datatype: 'json',
+					success: function(response){												
+						alert(response.message);
+					}
 				});
 				return false;
 			});

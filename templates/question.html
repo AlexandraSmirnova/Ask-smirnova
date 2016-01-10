@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<br><br>
-{% include "que.html" %}
-<hr>
-{% if answers %}
-	{% for a in answers %}
+	<br><br>
+	{% include "que.html" %}
+	<hr>
+	{% if answers %}
+		{% for a in answers %}
 			<div class = "question">
 				<div class = "left" >	
 					<img  class = "avatar" src = "/uploads/{{a.author.avatar}}" >
-					Rating: {{ a.rating }}<br>
+					<div>
+						Rating: 
+						<span id="a{{ a.id }}">
+							{{ a.rating }}
+						</span>
+					</div>
 					<a class="btn controls js-like" href="/like/" data-id="{{ a.id }}" data-url="/like/" data-mark="1" data-ptype="1"><img src = "/img/yes.png" class = "like"></i></a>
 					<a class ="btn controls b_right js-like" href="/like/" data-id="{{ a.id }}" data-url="/like/" data-mark="-1" data-ptype="1"> <img src = "/img/no.png" class = "like" ></i></a>
 				</div>
@@ -18,33 +23,34 @@
 					<p>{{a.answer_text}}</p>
 					
 					{% if a.flag %}
-						<input type="checkbox" name="option1"  checked> 
+						<input type="checkbox" data-id="{{ a.id }}" checked> 
 					{%else%}
-						<input type="checkbox" name="option1" > 
+						<input type="checkbox" data-id="{{ a.id }}"> 
 					{%endif%}		It's correct answer <br>
 					<font class ="graywords">{{ a.pub_date }}</font>
 				</div>
 			</div>
 		{% endfor %}
-{% else %}
-	<p>There are no answers yet</p><br>
-{% endif %}
-{% if user.is_authenticated %}
-	<form  method = "post" action = '/que/{{question.id}}/answer'>
-		{% csrf_token %}
-		<textarea name="answer" cols="80" rows="4", placeholder= "Input your answer here"></textarea>
-		{%if error%}
-			<div class = "alert-error input-xlarge">
-				{{ error }}
-			</div>
-		{%endif%}
-  	<p><input type="submit" class = "btn-primary " value="Add answer"></p>
-	</form>
-{% endif %}
-
-{% include "pagination.html" %}
-
+	{% else %}
+		<p>There are no answers yet</p><br>
+	{% endif %}
+	{% if user.is_authenticated %}
+		<form  method = "post" action = '/que/{{question.id}}/answer'>
+			{% csrf_token %}
+			<textarea name="answer" cols="80" rows="4", placeholder= "Input your answer here"></textarea>
+			{%if error%}
+				<div class = "alert-error input-xlarge">
+					{{ error }}
+				</div>
+			{%endif%}
+  			<p>
+  				<input type="submit" class = "btn-primary " value="Add answer">
+  			</p>
+		</form>
+	{% endif %}
+	{% include "pagination.html" %}
 {% endblock %}
+
 {% block foot %}
 	{% include "js-like.html" %}
 {% endblock %}

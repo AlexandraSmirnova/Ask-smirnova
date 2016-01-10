@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-		'django.contrib.humanize',
+    'django.contrib.humanize',
     'polls2',
 )
 
@@ -81,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', #'django.db.backends.sqlite3',
         'NAME':  'ask_db',
-				'USER': 'askuser',
+		'USER': 'askuser',
         'PASSWORD': 'secret',
     }
 }

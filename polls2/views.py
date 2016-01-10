@@ -1,4 +1,4 @@
-#TODO: 1.use manager(repeated parts of code is bad)
+#TODO: 1.use manager
 #2. Add search
 #3. Add checkboxes
 from django.shortcuts import render_to_response
@@ -241,7 +241,7 @@ def settings(request):
 	
 	return render(request, 'settings.html', context)
 
-#TODO: automatic page update
+
 @login_required
 def like(req):
 	pk = req.POST.get('id')
@@ -287,12 +287,33 @@ def like(req):
 	except:
 		message = p_change
 	import json
-	content =json.dumps({'status': status, 'q_change': p_change , 'message': message, 'new_rating': new_rate})
+	content = json.dumps({'status': status, 'q_change': p_change , 'message': message, 'new_rating': new_rate})
 
 	return HttpResponse(content, content_type = 'application/json')
 
 
-	
+#this function allow to mark answer as correct
+@login_required	
+def check_answer(request):
+	status = False
+	print("checkboxes!")
+	try:
+		pk = request.POST.get('id')
+		new_flag = request.POST.get('mark')
+		answer = Answer.objects.get(id = pk)
+		answer.flag = new_flag
+		answer.save()
+		if new_flag == 0:
+			answers = Answer.objects.filter(question = answer.question)
+			
+		status = True
+		message = "You successfully used checkbox!"
+	except:
+		message = "Sorry, you can't mark this answer"
+	import json
+	content = json.dumps({'status': status, 'message': message})
+	return HttpResponse(content, content_type = 'application/json')
+
 @login_required
 def get_user_data(request):
 	context = {}

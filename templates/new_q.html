@@ -3,19 +3,19 @@
 {% block content %}
 <form class="form-horizontal" method = "post" action = '/new'>
 	{% csrf_token %}
-  <fieldset>
-    <legend>New Question</legend>
-    <div class="controls">
-      {%for f in form%}
-       	{{ f.label_tag }} 
+	<fieldset>
+		<legend>New Question</legend>
+		<div class="controls">
+			{%for f in form%}
+				{{ f.label_tag }} 
 				{{ f }}
 				<div class = "alert-error input-xlarge">
 					{{ f.errors }}
 				</div>
 			{% endfor %}
- 			<br>
-			<button type="submit" class="btn btn-primary">Join</button>
-    </div>
-  </fieldset>
+			<br>
+			<button type="submit" class="btn btn-primary">Ask</button>
+		</div>
+	</fieldset>
 </form>
 {% endblock %}
