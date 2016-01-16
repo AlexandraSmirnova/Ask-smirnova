@@ -4,85 +4,75 @@
 <head>
 	<link rel="stylesheet" href="/css/bootstrap.min.css" type='text/css' media='all'> 
 	<link rel="stylesheet" href="/css/style.css" type='text/css' media='all'> 
-	<meta name="keywords" content="dequone, rezoh, stackoverflow, python, django, ask, smirnova, techopark, mail.ru, mail.ru group, mailru, mailru group, технопарк, мэйл.ру, мэйл.ру груп">
+	<meta name="keywords" content="dequone, rezoh, stackoverflow, python, django, ask, smirnova">
 	<title>Ask Smirnova</title>
 </head>
 
 <body>
-  <div class = "container">
+	<div class = "container">
 		<div class = "row"><br>
 			<form class="navbar navbar-inner form-search" id = "head" action = "/search", method = "get"> 
 				<div class ="row">
-					<div class = "span4">
-						<a href = "http://ask-smirnova.ru"><h1><font id = "logo" >Ask Smirnova</font></a>
+					<div class = "span3">
+						<h1><a href = "http://ask-smirnova.ru" id = "logo" >Ask.py</a></h1>
 					</div>
-					<div class = "span4">
-						<input type="text"   class="input-medium search-query" name="query" >
-						<button type="submit" class="btn btn-primary" >Search</button> 
+					<div class = "span5">
+						<a href = "/new" class = "ask-btn btn btn-primary" >Just Ask!</a>
+						<!--<input type="text"   class="input-medium search-query" name="query" >
+						<button type="submit" class="btn btn-primary" >Search</button> -->
 					</div>
 					<div class = "span3">
 						{% if user.is_authenticated %}
-						<div class = "span">
-							<img  class = "user" src = "/uploads/{{profile.avatar}}">	
-						</div>
-						<font size = "3"> {{profile.nickname}}<br>
-							<a href = "/logout">Logout</a>
-						<a href="/edit ">Settings</a></font>
-					{% else %}
-								<font size = "3"><a href = "/login">Signin</a> 
-													<a href = "/reg">Signup</a> </font>  {% endif %}</h1>
+							<div class = "span">
+								<img  class = "user" src = "/uploads/{{profile.avatar}}">	
+							</div>
+							<font size = "3"> {{profile.nickname}}<br>
+								<a href = "/logout">Logout</a>
+								<a href="/edit ">Settings</a>
+							</font>
+						{% else %}
+							<font size = "3">
+								<a href = "/login">Signin</a> 
+								<a href = "/reg">Signup</a> 
+							</font>  
+						{% endif %}
 					</div>
 				</div>
 			</form>
-		<div class = "span8 " id="maincol">
-				
-			{% block content %}{% endblock %}
-				
-		</div>
-		<div class = "span4" id="rightcol">
+			<div class = "span8 " id="maincol">
+					
+				{% block content %}{% endblock %}
+					
+			</div>
+			<div class = "span4" id="rightcol">
 				{% if popular_tags %}
-				<div class = "well">
-			  <h1>Popular Tags</h1><hr>
-					<ul>
-						{% for tag in popular_tags%}
-						<li><a href = "/tag/{{ tag.id }}">{{tag.word}}</a></li>
-						{% endfor %}
-					</ul>
-				</div>
+					<div class = "well">
+				  		<h1>Popular Tags</h1><hr>
+						<ul>
+							{% for tag in popular_tags%}
+								<li><a href = "/tag/{{ tag.id }}">{{tag.word}}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
 				{% endif %} 
 				{% if authors %}
-				<div class = "well">
-					<h1>Popular Authors</h1><hr>
-					<ul>
-						{% for author  in authors %}
-						<li><a href = "/author/{{ author.id }}">{{author.user_name}}</a></li>
-						{% endfor %}				
-					</ul>
-				</div>
-			{% endif %}
+					<div class = "well">
+						<h1>Popular Users</h1><hr>
+						<ul>
+							{% for author  in authors %}
+								<li><a href = "/author/{{ author.id }}">{{author.user_name}}</a></li>
+							{% endfor %}				
+						</ul>
+					</div>
+				{% endif %}
 				<div class = "span4" >
-					<a href = "/rating"><h3>Best questions</h3></a><br>
-					<a href = "/new" class = "btn btn-primary" >Add question</a>
-				</div>
-				
-		</div>
+					<a href = "/rating"><h3>Best questions</h3></a><br>					
+				</div>				
+			</div>
 		</div>
 	</div>
-		<!-- Placed at the end of the document so the pages load faster -->
+
 	<script src="http://getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-transition.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-alert.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-modal.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-dropdown.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-scrollspy.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tab.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tooltip.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-button.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-collapse.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-carousel.js"></script>
-	<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-typeahead.js"></script>
 	{% block foot %}{% endblock %}
 	</body>
 </html>
-

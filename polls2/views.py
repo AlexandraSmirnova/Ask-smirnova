@@ -81,12 +81,15 @@ def question(request, question_id):
 	except Question.DoesNotExist:
 		raise Http404("Question does not exist")
 	context = {}
+	context['profile'] = {}
 	context['profile'] = get_user_data(request)
 	context['question'] =  question
 	context['authors'] = Profile.objects.order_by('-user_rating')[:10]
 	context['answers'] = Answer.objects.filter(question = question_id)
-	answers = context['answers']
-	pages = pagination(request, answers)
+	#if context['profile']['nickname']:
+	if context['profile'].get('nickname') == str(question.author):
+		context['special_status'] = True
+	pages = pagination(request, context['answers'])
 	context.update(pages)
 	context['answers'] = context['questions']
 	context['popular_tags'] = Tag.objects.all().values('id', 'word').annotate(Count("question")).order_by('-question__count')[0:5]	
@@ -295,17 +298,21 @@ def like(req):
 #this function allow to mark answer as correct
 @login_required	
 def check_answer(request):
-	status = False
-	print("checkboxes!")
+	status = False	
 	try:
 		pk = request.POST.get('id')
-		new_flag = request.POST.get('mark')
-		answer = Answer.objects.get(id = pk)
-		answer.flag = new_flag
-		answer.save()
-		if new_flag == 0:
+		new_flag = int(request.POST.get('mark'))
+		answer = Answer.objects.get(id = pk)				
+		answer.flag = new_flag					
+		answer.save()		
+		if new_flag:
 			answers = Answer.objects.filter(question = answer.question)
-			
+			print('flag=1')
+			for a in answers:
+				if a.id != int(pk):
+					print(a.id)		
+					a.flag = False
+					a.save()
 		status = True
 		message = "You successfully used checkbox!"
 	except:

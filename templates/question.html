@@ -21,13 +21,20 @@
 				<div class = "right" >
 					<h3> <a href = "/author/{{ a.author.id }}">{{a.author}}</a>	</h3>
 					<p>{{a.answer_text}}</p>
-					
-					{% if a.flag %}
-						<input type="checkbox" data-id="{{ a.id }}" checked> 
+										
+					{% if special_status %}
+						{% if a.flag %}
+							<input type="checkbox" data-id="{{ a.id }}" checked> 
+						{%else%}
+							<input type="checkbox" data-id="{{ a.id }}"> 
+						{%endif%}		
+						It's correct answer 
 					{%else%}
-						<input type="checkbox" data-id="{{ a.id }}"> 
-					{%endif%}		It's correct answer <br>
-					<font class ="graywords">{{ a.pub_date }}</font>
+						{% if a.flag %}
+							<div class="redwords">☑ It's correct answer</div>
+						{%endif%}
+					{%endif%}
+					<div class ="graywords">{{ a.pub_date }}</div>
 				</div>
 			</div>
 		{% endfor %}
@@ -37,7 +44,7 @@
 	{% if user.is_authenticated %}
 		<form  method = "post" action = '/que/{{question.id}}/answer'>
 			{% csrf_token %}
-			<textarea name="answer" cols="80" rows="4", placeholder= "Input your answer here"></textarea>
+			<textarea name="answer" cols="100" rows="4", placeholder= "Input your answer here"></textarea>
 			{%if error%}
 				<div class = "alert-error input-xlarge">
 					{{ error }}

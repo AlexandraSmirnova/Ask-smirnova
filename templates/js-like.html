@@ -51,13 +51,14 @@
 			$(":checkbox").change(function(){
 				var $box = $(this);
 
-				if($box.checked){
+				if(this.checked){
 					var mark = 1;
 				}
 				else{
 					var mark = 0;
 				}
 				console.log(mark);
+				console.log(this.checked);
 				$.ajax({
 					type: "POST",
 					url: '/check_answer',
